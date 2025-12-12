@@ -228,7 +228,7 @@
    ======================= */
 
     .sidebar.collapsed {
-      width: 60px; /* 접혔을 때 사이드바 최소 폭 */
+      width: 100px; /* 접혔을 때 사이드바 최소 폭 */
 
     }
 
@@ -241,13 +241,116 @@
     .sidebar.collapsed select,
     .sidebar.collapsed label,
     .sidebar.collapsed hr,
-    .sidebar.collapsed button {
-      display: none; /* 내용 숨기기 */
+    .sidebar.collapsed button,
+    .sidebar.collapsed .card {
+      display: none;
     }
+
 
     .sidebar.collapsed #sidebarToggle {
       display: block; /* 토글 버튼만 보이게 */
     }
+    :root{
+      --accent: #2b8cff;
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --muted: #6b7280;
+      --radius: 10px;
+    }
+
+    .tabs {
+      width: min(880px, 96%);
+      margin: 0 auto;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+      overflow: hidden;
+    }
+
+    /* 탭 헤더 */
+    .tablist {
+      display:flex;
+      gap:8px;
+      padding:12px;
+      background: linear-gradient(90deg, rgba(43,140,255,0.06), transparent);
+    }
+
+    .tab {
+      appearance: none;
+      border: none;
+      background: transparent;
+      padding:10px 18px;
+      font-weight:600;
+      border-radius:8px;
+      cursor: pointer;
+      transition: all 180ms ease;
+      color:var(--muted);
+    }
+    .tab[aria-selected="true"]{
+      background: linear-gradient(180deg,var(--accent),#1b6fe8);
+      color: white;
+      box-shadow: 0 6px 14px rgba(43,140,255,0.18), 0 1px 0 rgba(255,255,255,0.06) inset;
+      transform: translateY(-2px);
+    }
+    .tab:focus{
+      outline: 3px solid rgba(43,140,255,0.18);
+      outline-offset: 3px;
+    }
+
+    /* 패널 */
+    .tabpanel {
+      padding: 20px;
+      min-height: 180px;
+      background: linear-gradient(180deg, rgba(250,251,255,0.6), transparent);
+      border-top: 1px solid rgba(15,23,42,0.04);
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+    .tabpanel[hidden]{
+      display: none;
+    }
+
+    /* 내부 콘텐츠 스타일 (샘플) */
+    h2 { margin-top: 0; font-size: 1.15rem; }
+    p { color: #374151; line-height:1.6 }
+    .controls { margin-top: 16px; display:flex; gap:8px; }
+    .btn {
+      padding:8px 12px; border-radius:8px; border:none; cursor:pointer; font-weight:600;
+      background: #eef2ff; color: #084298;
+    }
+
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#06b6d4; --muted:#94a3b8; --radius:12px;
+      --gap:12px; --pad:18px;
+    }
+    *{box-sizing:border-box}
+
+
+    .card{
+      width:720px; max-width:96vw; background:linear-gradient(180deg,rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:var(--radius); box-shadow:0 10px 30px rgba(2,6,23,0.6); overflow:hidden; border:1px solid rgba(255,255,255,0.03);
+    }
+    /* Tab header */
+    .tab-header{ display:flex; gap:var(--gap); padding:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent); align-items:center }
+    .tab-list{ display:flex; gap:8px; padding:6px; }
+    .tab{
+      appearance:none; border:0; background:transparent; padding:10px 16px; border-radius:10px; color:var(--muted); cursor:pointer; font-weight:600; letter-spacing:0.2px;
+      transition: all .18s ease; position:relative;
+    }
+    .tab:focus{ outline:2px solid rgba(6,182,212,0.18); outline-offset:3px }
+    .tab[aria-selected="true"]{
+      color:var(--bg); background:linear-gradient(90deg, var(--accent), #7c3aed); box-shadow: 0 6px 18px rgba(7,20,34,0.6); transform:translateY(-2px);
+    }
+    /* Animated indicator under active tab group */
+    .tab-indicator{ height:4px; background:linear-gradient(90deg,var(--accent), #7c3aed); border-radius:4px; transition:width .18s ease, transform .18s ease; }
+
+
+    /* Panel area */
+    .tab-body{ padding:var(--pad); background:linear-gradient(180deg, rgba(255,255,255,0.005), rgba(255,255,255,0.002)); }
+    .panel{ display:none; }
+    .panel[aria-hidden="false"]{ display:block }
+
+
+    /* small responsive tweaks */
+    @media (max-width:480px){ .tab{ padding:8px 10px; font-size:14px } }
 
 
 
@@ -268,150 +371,317 @@
   <!-- --------------------------------------- -->
   <!--               SIDEBAR                   -->
   <!-- --------------------------------------- -->
+
+
   <aside class="sidebar">
     <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px; display:flex; justify-content:space-between; align-items:center;">
 
       <button id="sidebarToggle" style="background:none; border:none; color:white; font-size:16px; cursor:pointer; "><i class="fa-solid fa-angles-left"></i></button>
     </h3>
-
-    <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">공사 정보</h3>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>공사명</label>
-        <input id="workNameInput" type="text" style="border:none;">
-      </div>
-
-      <div class="form-group">
-        <label>제출처</label>
-        <input id="submitToInput" type="text" style="border:none;">
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>참고</label>
-        <input id="refInput" type="text" style="border:none;">
-      </div>
-
-      <div class="form-group">
-        <label>발행 일자</label>
-        <input id="issueDateInput" type="date" style="border:none;">
-      </div>
-    </div >
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>발행 번호</label>
-        <input id="issueNumberInput" type="text" style="border:none;">
-      </div>
-
-
-    </div>
     <hr>
-    <h4 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">회사 정보</h4>
-    <div class="form-row">
-      <div class="form-group">
-        <label>상호</label>
-        <input id="companyNameInput" type="text" value="대덕ENG" style="border:none;">
-
-      </div>
-      <div class="form-group">
-        <label>사업자번호</label>
-        <input id="bizNumberInput" type="text" value='171-41-01658' style="border:none;">
+    <div class="card" role="region" aria-label="샘플 탭 위젯">
+      <div class="tab-header">
+        <div class="tab-list" role="tablist" aria-label="기본 탭 목록">
+          <button class="tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true" tabindex="0" style="font-size: 24px; padding:10px;"><i class="fa-solid fa-receipt"></i></button>
+          <button class="tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1" style="font-size: 24px;"><i class="fa-solid fa-wrench"></i></button>
+        </div>
       </div>
 
 
+      <div class="tab-body">
+        <section id="panel-1" class="panel" role="tabpanel" aria-labelledby="tab-1" aria-hidden="false">
+          <div class="tab1">
+            <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">공사 정보</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>공사명</label>
+                <input id="workNameInput" type="text" style="border:none;">
+              </div>
+
+              <div class="form-group">
+                <label>제출처</label>
+                <input id="submitToInput" type="text" style="border:none;">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>참고</label>
+                <input id="refInput" type="text" style="border:none;">
+              </div>
+
+              <div class="form-group">
+                <label>발행 일자</label>
+                <input id="issueDateInput" type="date" style="border:none;">
+              </div>
+            </div >
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>발행 번호</label>
+                <input id="issueNumberInput" type="text" style="border:none;">
+              </div>
+
+
+            </div>
+            <hr>
+            <h4 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">회사 정보</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label>상호</label>
+                <input id="companyNameInput" type="text" value="대덕ENG" style="border:none;">
+
+              </div>
+              <div class="form-group">
+                <label>사업자번호</label>
+                <input id="bizNumberInput" type="text" value='171-41-01658' style="border:none;">
+              </div>
+
+
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>주소</label>
+                <input id="companyAddressInput" type="text" value="서울시 송파구 송파동93-5" style="border:none;">
+              </div>
+
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>대표자</label>
+                <input id="ceoInput" type="text" value="이은휘" style="border:none;">
+              </div>
+
+
+            </div>
+            <div class="form-group">
+              <label>직인</label>
+              <button id="addStampBtn" type="button" style="border:none;">직인 추가</button>
+            </div>
+
+            <!-- 스탬프 미리보기 영역 -->
+            <div id="stampPreview" style="margin-top:10px; text-align:center;"></div>
+
+
+
+
+
+
+            <hr>
+
+            <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">단가 테이블</h3>
+
+            <label>품목명</label>
+            <input id="itemInput" type="text" autocomplete="off">
+            <div id="autocompleteBox" class="autocomplete-box"></div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>단위</label>
+                <select id="unitInput">
+                  <option value="개">개</option>
+                  <option value="인">인</option>
+                  <option value="m">건</option>
+                  <option value="kg">조</option>
+                  <option value="EA">EA</option>
+                  <option value="dae">대</option>
+                  <option value="meter">미터</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>수량</label>
+                <input id="qtyInput" type="number">
+              </div>
+
+              <div class="form-group">
+                <label>단가</label>
+                <input id="priceInput" type="number">
+              </div>
+            </div>
+
+
+
+            <button id="addItemBtn" style="color:#4b4b4b; border:none; border-radius:5px;"><i class="fa-solid fa-circle-plus"></i></button>
+
+            <table id="itemTable">
+              <thead>
+              <tr style="font-size: 12px; ">
+                <th style="text-align:center;">항목</th>
+                <th style="text-align:center;">품목 및 명세</th>
+                <th style="text-align:center;">수량</th>
+                <th style="text-align:center;">개당 단가</th>
+                <th style="text-align:center;">금액</th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+
+            <hr>
+
+            <label>템플릿 선택</label>
+            <div class="select" style="display: flex; flex-direction: row; align-items: center; gap:5px;">
+              <select id="templateSelect" style="flex:5;  border:none; border-radius:5px;" >
+                <option value="template1">인보이스 1</option>
+                <option value="template2">인보이스 2</option>
+              </select>
+              <button id="downloadPngBtn" style="flex:0.5; border-radius: 3px; border:none;"><i class="fa-solid fa-floppy-disk" style="color:#4b4b4b;"></i></button>
+            </div>
+
+          </div>
+        </section>
+
+
+        <section id="panel-2" class="panel" role="tabpanel" aria-labelledby="tab-2" aria-hidden="true">
+          <div class="tab2">
+            <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">공사 정보</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>공사명</label>
+                <input id="workNameInput" type="text" style="border:none;">
+              </div>
+
+              <div class="form-group">
+                <label>제출처</label>
+                <input id="submitToInput" type="text" style="border:none;">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>참고</label>
+                <input id="refInput" type="text" style="border:none;">
+              </div>
+
+              <div class="form-group">
+                <label>발행 일자</label>
+                <input id="issueDateInput" type="date" style="border:none;">
+              </div>
+            </div >
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>발행 번호</label>
+                <input id="issueNumberInput" type="text" style="border:none;">
+              </div>
+
+
+            </div>
+            <hr>
+            <h4 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">회사 정보</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label>상호</label>
+                <input id="companyNameInput" type="text" value="대덕ENG" style="border:none;">
+
+              </div>
+              <div class="form-group">
+                <label>사업자번호</label>
+                <input id="bizNumberInput" type="text" value='171-41-01658' style="border:none;">
+              </div>
+
+
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>주소</label>
+                <input id="companyAddressInput" type="text" value="서울시 송파구 송파동93-5" style="border:none;">
+              </div>
+
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>대표자</label>
+                <input id="ceoInput" type="text" value="이은휘" style="border:none;">
+              </div>
+
+
+            </div>
+            <div class="form-group">
+              <label>직인</label>
+              <button id="addStampBtn" type="button" style="border:none;">직인 추가</button>
+            </div>
+
+            <!-- 스탬프 미리보기 영역 -->
+            <div id="stampPreview" style="margin-top:10px; text-align:center;"></div>
+
+
+
+
+
+
+            <hr>
+
+            <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">단가 테이블</h3>
+
+            <label>품목명</label>
+            <input id="itemInput" type="text" autocomplete="off">
+            <div id="autocompleteBox" class="autocomplete-box"></div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>단위</label>
+                <select id="unitInput">
+                  <option value="개">개</option>
+                  <option value="인">인</option>
+                  <option value="m">건</option>
+                  <option value="kg">조</option>
+                  <option value="EA">EA</option>
+                  <option value="dae">대</option>
+                  <option value="meter">미터</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>수량</label>
+                <input id="qtyInput" type="number">
+              </div>
+
+              <div class="form-group">
+                <label>단가</label>
+                <input id="priceInput" type="number">
+              </div>
+            </div>
+
+
+
+            <button id="addItemBtn" style="color:#4b4b4b; border:none; border-radius:5px;"><i class="fa-solid fa-circle-plus"></i></button>
+
+            <table id="itemTable">
+              <thead>
+              <tr style="font-size: 12px; ">
+                <th style="text-align:center;">항목</th>
+                <th style="text-align:center;">품목 및 명세</th>
+                <th style="text-align:center;">수량</th>
+                <th style="text-align:center;">개당 단가</th>
+                <th style="text-align:center;">금액</th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+
+            <hr>
+
+            <label>템플릿 선택</label>
+            <div class="select" style="display: flex; flex-direction: row; align-items: center; gap:5px;">
+              <select id="templateSelect" style="flex:5;  border:none; border-radius:5px;" >
+                <option value="template1">인보이스 1</option>
+                <option value="template2">인보이스 2</option>
+              </select>
+              <button id="downloadPngBtn" style="flex:0.5; border-radius: 3px; border:none;"><i class="fa-solid fa-floppy-disk" style="color:#4b4b4b;"></i></button>
+            </div>
+
+          </div>
+        </section>
+      </div>
     </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label>주소</label>
-        <input id="companyAddressInput" type="text" value="서울시 송파구 송파동93-5" style="border:none;">
-      </div>
-
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>대표자</label>
-        <input id="ceoInput" type="text" value="이은휘" style="border:none;">
-      </div>
 
 
-    </div>
-    <div class="form-group">
-      <label>직인</label>
-      <button id="addStampBtn" type="button" style="border:none;">직인 추가</button>
-    </div>
-
-    <!-- 스탬프 미리보기 영역 -->
-    <div id="stampPreview" style="margin-top:10px; text-align:center;"></div>
-
-
-
-
-
-
-    <hr>
-
-    <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">단가 테이블</h3>
-
-    <label>품목명</label>
-    <input id="itemInput" type="text" autocomplete="off">
-    <div id="autocompleteBox" class="autocomplete-box"></div>
-
-    <div class="form-row">
-      <div class="form-group">
-        <label>단위</label>
-        <select id="unitInput">
-          <option value="개">개</option>
-          <option value="인">인</option>
-          <option value="m">건</option>
-          <option value="kg">조</option>
-          <option value="EA">EA</option>
-          <option value="dae">대</option>
-          <option value="meter">미터</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>수량</label>
-        <input id="qtyInput" type="number">
-      </div>
-
-      <div class="form-group">
-        <label>단가</label>
-        <input id="priceInput" type="number">
-      </div>
-    </div>
-
-
-
-    <button id="addItemBtn" style="color:#4b4b4b; border:none; border-radius:5px;"><i class="fa-solid fa-circle-plus"></i></button>
-
-    <table id="itemTable">
-      <thead>
-      <tr style="font-size: 12px; ">
-        <th style="text-align:center;">항목</th>
-        <th style="text-align:center;">품목 및 명세</th>
-        <th style="text-align:center;">수량</th>
-        <th style="text-align:center;">개당 단가</th>
-        <th style="text-align:center;">금액</th>
-      </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-
-    <hr>
-
-    <label>템플릿 선택</label>
-    <div class="select" style="display: flex; flex-direction: row; align-items: center; gap:5px;">
-      <select id="templateSelect" style="flex:5;  border:none; border-radius:5px;" >
-        <option value="template1">인보이스 1</option>
-        <option value="template2">인보이스 2</option>
-      </select>
-      <button id="downloadPngBtn" style="flex:0.5; border-radius: 3px; border:none;"><i class="fa-solid fa-floppy-disk" style="color:#4b4b4b;"></i></button>
-    </div>
 
 
 
@@ -425,7 +695,52 @@
   </main>
 
 </div>
+<script>
+  // 탭 인터랙션 (접근성 포함)
+  (function(){
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+    const panels = tabs.map(t => document.getElementById(t.getAttribute('aria-controls')));
 
+
+    function activateTab(tab, setFocus = true){
+// deactivate all
+      tabs.forEach(t => { t.setAttribute('aria-selected', 'false'); t.tabIndex = -1 });
+      panels.forEach(p => p.setAttribute('aria-hidden', 'true'));
+
+
+// activate chosen
+      tab.setAttribute('aria-selected','true');
+      tab.tabIndex = 0;
+      const panel = document.getElementById(tab.getAttribute('aria-controls'));
+      panel.setAttribute('aria-hidden','false');
+      if(setFocus) tab.focus();
+    }
+
+
+// 초기 세팅
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener('click', () => activateTab(tab, false));
+
+
+      tab.addEventListener('keydown', (ev) => {
+        const key = ev.key;
+        let newIndex = null;
+        if(key === 'ArrowRight') newIndex = (idx + 1) % tabs.length;
+        if(key === 'ArrowLeft') newIndex = (idx - 1 + tabs.length) % tabs.length;
+        if(key === 'Home') newIndex = 0;
+        if(key === 'End') newIndex = tabs.length - 1;
+
+
+        if(newIndex !== null){ ev.preventDefault(); activateTab(tabs[newIndex]); }
+      });
+    });
+
+
+// ensure initial state matches attributes in HTML
+    const initial = tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0];
+    activateTab(initial, false);
+  })();
+</script>
 <script>
   // ===============================
   // PNG 다운로드
