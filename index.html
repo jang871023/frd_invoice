@@ -189,41 +189,12 @@
     /* =======================
    📱 Mobile Layout
    ======================= */
-    @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    height: auto;   /* 높이 자동 */
-  }
+    /* =======================
+   Mobile Layout
+   ======================= */
 
-  .sidebar {
-    width: 100%;
-    height: auto;   /* 모바일에서 높이 자동 */
-    border-right: none;
-    border-bottom: 1px solid #ccc;
-    padding: 10px;
-    overflow-y: auto;  /* 스크롤 가능 */
-  }
 
-  .main-area {
-    width: 100%;
-    height: auto;       /* main-area 높이 자동 */
-    padding: 10px;
-    justify-content: center;
-    overflow-x: auto;   /* 가로 넘침 방지 */
-    overflow-y: auto;   /* 세로 스크롤 가능 */
-  }
 
-  canvas {
-    width: 100% !important;
-    height: auto !important;
-    max-width: 800px;   /* 원래 canvas 비율 유지 */
-  }
-
-  .form-row {
-    flex-direction: column;  /* 모바일에서 1열씩 */
-    gap: 10px;
-  }
-}
 
     input, select, textarea, button {
       font-family: "Escoredream", sans-serif !important;
@@ -252,6 +223,63 @@
       font-size: 12px;
       color:#4b4b4b;
     }
+    /* =======================
+   Mobile Layout Fix
+   ======================= */
+    @media (max-width: 768px) {
+      /* 상하 배치 */
+      .container {
+        flex-direction: column;
+        height: auto !important;  /* 기존 height:100vh 덮어쓰기 */
+      }
+
+      /* 사이드바: 상단, 폭 100% */
+      .sidebar {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+        overflow: visible; /* 스크롤은 필요시 내부 요소에만 */
+      }
+
+      /* 메인 영역: 하단, 높이 자동, 캔버스 비율 유지 */
+      .main-area {
+        width: 100%;
+        height: auto !important;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        box-sizing: border-box;
+      }
+
+      /* 캔버스: 화면 폭 맞춤 */
+      canvas {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 800px;
+        border: 1px solid #ccc;
+      }
+
+      /* 폼 행 세로 배치 */
+      .form-row {
+        flex-direction: column !important;
+        gap: 10px;
+      }
+
+      /* 폼 그룹 폭 100% */
+      .form-row .form-group {
+        width: 100% !important;
+      }
+
+      /* select / button 폭 100% */
+      .sidebar select,
+      .sidebar button {
+        width: 100% !important;
+      }
+    }
+
 
 
 
@@ -686,7 +714,7 @@
     stampEnabled = !stampEnabled;
 
     const previewDiv = document.getElementById("stampPreview");
-    previewDiv.innerHTML = stampEnabled ? `<img src="img/stamp1.png" style="width:80px;">` : "";
+    previewDiv.innerHTML = stampEnabled ? `<img src="img/stamp1.png" style="width:50px;">` : "";
 
     loadTemplate();
   });
@@ -738,6 +766,44 @@
   canvas.addEventListener("mouseleave", () => {
     isDraggingStamp = false;
   });
+  // ===============================
+  // 터치 이벤트 대응
+  // ===============================
+  canvas.addEventListener("touchstart", (e) => {
+    if (!stampEnabled) return;
+    const touch = e.touches[0];
+    const pos = getMousePos(canvas, touch);
+    const x = pos.x, y = pos.y;
+
+    if (x >= stampX && x <= stampX + stampW &&
+      y >= stampY && y <= stampY + stampH) {
+      isDraggingStamp = true;
+      offsetX = x - stampX;
+      offsetY = y - stampY;
+    }
+  });
+
+  canvas.addEventListener("touchmove", (e) => {
+    if (!isDraggingStamp) return;
+    e.preventDefault(); // 스크롤 방지
+
+    const touch = e.touches[0];
+    const pos = getMousePos(canvas, touch);
+
+    stampX = pos.x - offsetX;
+    stampY = pos.y - offsetY;
+
+    loadTemplate();
+  }, { passive: false });
+
+  canvas.addEventListener("touchend", () => {
+    isDraggingStamp = false;
+  });
+
+  canvas.addEventListener("touchcancel", () => {
+    isDraggingStamp = false;
+  });
+
 
   // ===============================
   // 항목 추가 버튼
