@@ -190,36 +190,41 @@
    📱 Mobile Layout
    ======================= */
     @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        height: auto;
-      }
+  .container {
+    flex-direction: column;
+    height: auto;   /* 높이 자동 */
+  }
 
-      .sidebar {
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid #ccc;
-      }
+  .sidebar {
+    width: 100%;
+    height: auto;   /* 모바일에서 높이 자동 */
+    border-right: none;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    overflow-y: auto;  /* 스크롤 가능 */
+  }
 
+  .main-area {
+    width: 100%;
+    height: auto;       /* main-area 높이 자동 */
+    padding: 10px;
+    justify-content: center;
+    overflow-x: auto;   /* 가로 넘침 방지 */
+    overflow-y: auto;   /* 세로 스크롤 가능 */
+  }
 
-      .main-area {
-        width: 100%;
-        height: auto;
-        padding: 10px;
-        justify-content: center;
-      }
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 800px;   /* 원래 canvas 비율 유지 */
+  }
 
-      canvas {
-        width: 100% !important;
-        height: auto !important;
-      }
+  .form-row {
+    flex-direction: column;  /* 모바일에서 1열씩 */
+    gap: 10px;
+  }
+}
 
-      /* 폼 2개씩 → 모바일에서는 1개씩 */
-      .two-col {
-        grid-template-columns: 1fr !important;
-      }
-    }
     input, select, textarea, button {
       font-family: "Escoredream", sans-serif !important;
     }
