@@ -78,7 +78,7 @@
       height: 100vh;
     }
     .sidebar {
-      width: 420px;
+      width: 800px;
       height: 100%;
       background: #e6e6e6;
       padding: 20px;
@@ -226,59 +226,29 @@
     /* =======================
    Mobile Layout Fix
    ======================= */
-    @media (max-width: 768px) {
-      /* 상하 배치 */
-      .container {
-        flex-direction: column;
-        height: auto !important;  /* 기존 height:100vh 덮어쓰기 */
-      }
 
-      /* 사이드바: 상단, 폭 100% */
-      .sidebar {
-        width: 100%;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid #ccc;
-        padding: 10px;
-        overflow: visible; /* 스크롤은 필요시 내부 요소에만 */
-      }
+    .sidebar.collapsed {
+      width: 60px; /* 접혔을 때 사이드바 최소 폭 */
 
-      /* 메인 영역: 하단, 높이 자동, 캔버스 비율 유지 */
-      .main-area {
-        width: 100%;
-        height: auto !important;
-        padding: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        box-sizing: border-box;
-      }
-
-      /* 캔버스: 화면 폭 맞춤 */
-      canvas {
-        width: 100% !important;
-        height: auto !important;
-        max-width: 800px;
-        border: 1px solid #ccc;
-      }
-
-      /* 폼 행 세로 배치 */
-      .form-row {
-        flex-direction: column !important;
-        gap: 10px;
-      }
-
-      /* 폼 그룹 폭 100% */
-      .form-row .form-group {
-        width: 100% !important;
-      }
-
-      /* select / button 폭 100% */
-      .sidebar select,
-      .sidebar button {
-        width: 100% !important;
-      }
     }
+
+    .sidebar.collapsed h3,
+    .sidebar.collapsed h4,
+    .sidebar.collapsed .form-row,
+    .sidebar.collapsed .form-group,
+    .sidebar.collapsed table,
+    .sidebar.collapsed input,
+    .sidebar.collapsed select,
+    .sidebar.collapsed label,
+    .sidebar.collapsed hr,
+    .sidebar.collapsed button {
+      display: none; /* 내용 숨기기 */
+    }
+
+    .sidebar.collapsed #sidebarToggle {
+      display: block; /* 토글 버튼만 보이게 */
+    }
+
 
 
 
@@ -299,6 +269,10 @@
   <!--               SIDEBAR                   -->
   <!-- --------------------------------------- -->
   <aside class="sidebar">
+    <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px; display:flex; justify-content:space-between; align-items:center;">
+
+      <button id="sidebarToggle" style="background:none; border:none; color:white; font-size:16px; cursor:pointer; "><i class="fa-solid fa-angles-left"></i></button>
+    </h3>
 
     <h3 style="background-color:#000000; padding:7px; color:white; border-radius:5px;">공사 정보</h3>
 
@@ -858,6 +832,23 @@
 
   // 초기 실행
   loadTemplate();
+  const sidebar = document.querySelector(".sidebar");
+  const toggleBtn = document.getElementById("sidebarToggle");
+  const toggleIcon = toggleBtn.querySelector("i");
+
+  toggleBtn.addEventListener("click", () => {
+    sidebar.classList.toggle("collapsed");
+
+    if (sidebar.classList.contains("collapsed")) {
+      toggleIcon.classList.remove("fa-angles-left");
+      toggleIcon.classList.add("fa-angles-right");
+    } else {
+      toggleIcon.classList.remove("fa-angles-right");
+      toggleIcon.classList.add("fa-angles-left");
+    }
+  });
+
+
 </script>
 
 
